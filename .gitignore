@@ -1,6 +1,8 @@
 # OSX
 #
-.DS_Store
+DS_Store
+.vscode/
+__tests__/
 
 # Xcode
 #
