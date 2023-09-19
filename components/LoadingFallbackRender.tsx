@@ -1,4 +1,4 @@
-import {View, Text, ActivityIndicator} from 'react-native';
+import {View, ActivityIndicator} from 'react-native';
 import {darkPalettes, lightPalettes} from '../types/Palettes';
 
 export const LoadingFallbackRender = (props: any) => {

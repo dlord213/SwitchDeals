@@ -13,7 +13,6 @@ import {Image} from 'react-native-animatable';
 import {darkPalettes, lightPalettes} from '../types/Palettes';
 import PressableLink from '../components/PressableLink';
 import {faPaperPlane} from '@fortawesome/free-solid-svg-icons';
-import Gallery from 'react-native-awesome-gallery';
 
 const LoadingSkeleton = props => {
   return (

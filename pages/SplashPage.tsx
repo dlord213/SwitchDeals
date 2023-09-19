@@ -1,16 +1,9 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React from 'react';
 import * as Animatable from 'react-native-animatable';
-import {
-  SafeAreaView,
-  View,
-  Text,
-  StatusBar,
-  ActivityIndicator,
-  Animated,
-} from 'react-native';
+import {SafeAreaView, View, StatusBar} from 'react-native';
 import {lightPalettes} from '../types/Palettes';
 
-export default function SplashPage({navigation}, props) {
+export default function SplashPage(props) {
   return (
     <SafeAreaView>
       <StatusBar backgroundColor={lightPalettes.accent} />

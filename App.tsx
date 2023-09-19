@@ -16,6 +16,8 @@ import SplashPage from './pages/SplashPage';
 import HottestDealPage from './pages/HottestDealsPage';
 import GameInfo from './pages/GameInfo';
 import {ToastProvider, useToast} from 'react-native-toast-notifications';
+import NetInfo, {useNetInfo} from '@react-native-community/netinfo';
+import NoNetworkPage from './pages/NoNetworkConnectionPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,21 +26,33 @@ const StackNavigator = parentProps => {
   const [theme, setTheme] = useState('light');
   const toast = useToast();
 
+  const internetState = useNetInfo();
+
   useEffect(() => {
-    setTimeout(() => {
-      if (navigationRef.isReady()) {
-        navigationRef.navigate('Home');
-      }
-      toast.show?.('Fetching data...', {
-        duration: 2500,
-        animationType: 'slide-in',
-      });
-    }, 3500);
-  }, [navigationRef]);
+    if (internetState.isInternetReachable == false) {
+      setTimeout(() => {
+        if (navigationRef.isReady()) {
+          navigationRef.reset({
+            index: 0,
+            routes: [{name: 'No-Network'}],
+          });
+        }
+      }, 2000);
+    } else {
+      setTimeout(() => {
+        if (navigationRef.isReady()) {
+          navigationRef.reset({
+            index: 0,
+            routes: [{name: 'Home'}],
+          });
+        }
+      }, 2000);
+    }
+  }, [navigationRef, toast, internetState]);
 
   return (
     <NavigationContainer ref={navigationRef}>
-      <Stack.Navigator initialRouteName="Solash">
+      <Stack.Navigator initialRouteName="Splash">
         <Stack.Screen
           name="Splash"
           component={SplashPage}
@@ -58,10 +72,18 @@ const StackNavigator = parentProps => {
           }}
         />
         <Stack.Screen
+          name="No-Network"
+          component={NoNetworkPage}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
           name="Game-Info"
           component={GameInfo}
           options={{
             headerShown: true,
+            headerTransparent: true,
             headerTitleAlign: 'center',
           }}
         />

@@ -1,4 +1,4 @@
-import {View, Text, Button, FlatList} from 'react-native';
+import {View, Text, FlatList} from 'react-native';
 import React from 'react';
 import {Card} from './Card';
 import PressableLink from './PressableLink';
@@ -24,10 +24,12 @@ export function RenderCards(props: any) {
             dateEnds={item.dateEnds}
             discountedPrice={item.discountedPrice}
             oldPrice={item.oldPrice}
-            currency={item.currency}
             cardTheme={props.cardTheme}
             onPress={() => {
-              console.log(item.title);
+              props.cardPress('Game-Info', {
+                data: item,
+                theme: props.cardTheme,
+              });
             }}
           />
         )}
@@ -66,23 +68,29 @@ export const DealsSection = (props: any) => {
       style={props.theme ? darkStyles.dealsSection : lightStyles.dealsSection}>
       <Header
         textStyle={props.theme ? darkPalettes.text : lightPalettes.accent}
-        title={props.title}></Header>
-      <RenderCards data={props.data} cardTheme={props.theme}></RenderCards>
+        title={props.title}
+      />
+      <RenderCards
+        data={props.data}
+        cardTheme={props.theme}
+        cardPress={props.cardPress}
+      />
       <View style={{marginVertical: 8}}>
         <PressableLink
           icon={faList}
           text="View more deals"
+          display={props.display}
           backgroundColor={
-            props.theme ? darkPalettes.background : lightPalettes.accent
+            props.theme ? darkPalettes.background : lightPalettes.secondary
           }
           pressedBackgroundColor={
-            props.theme ? darkPalettes.background : lightPalettes.text
+            props.theme ? darkPalettes.background : lightPalettes.secondary
           }
-          textColor={props.theme ? darkPalettes.text : 'white'}
-          iconColor={props.theme ? darkPalettes.accent : 'white'}
+          textColor={props.theme ? darkPalettes.text : lightPalettes.accent}
+          iconColor={props.theme ? darkPalettes.accent : lightPalettes.accent}
           fontSize={16}
           iconSize={16}
-          align={props.theme ? 'flex-start' : 'center'}
+          align="flex-start"
           onPress={props.btnOnPress}
         />
       </View>

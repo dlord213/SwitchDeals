@@ -1,4 +1,4 @@
-import {View, Text, Button} from 'react-native';
+import {View, Text} from 'react-native';
 
 export const HeaderSection = (props: any) => {
   return (

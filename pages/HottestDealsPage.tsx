@@ -1,17 +1,13 @@
 import {useState, useEffect} from 'react';
 import {
   SafeAreaView,
-  ScrollView,
   View,
   Text,
   Image,
   Pressable,
   FlatList,
 } from 'react-native';
-import {darkStyles, lightStyles} from '../styles/Styles';
 import {darkPalettes, lightPalettes} from '../types/Palettes';
-import {DealsSection, RenderCards} from '../components/DealsSection';
-import {Card} from '../components/Card';
 import PressableLink from '../components/PressableLink';
 import {faArrowLeft, faArrowRight} from '@fortawesome/free-solid-svg-icons';
 import * as cheerio from 'cheerio';
@@ -86,37 +82,6 @@ const PageCards = props => {
   );
 };
 
-async function getData({page, dataArray}) {
-  const response = await axios.get(
-    `https://www.dekudeals.com/hottest?page=${page}`,
-  );
-  const data = response.data;
-
-  const $ = cheerio.load(data);
-  const parseDeals = $('.col-xl-2.col-lg-3.col-sm-4.col-6.cell');
-
-  const deals = [];
-
-  for (const deal of parseDeals) {
-    const dealData = {
-      title: $(deal).find('.main-link > .h6.name').text().trim(),
-      imageUri: $(deal).find('.main-link > .responsive-img').attr('src'),
-      oldPrice: $(deal).find('.card-badge > .text-muted').text().trim(),
-      discountedPrice: $(deal).find('.card-badge > strong').text().trim(),
-      percentage: $(deal)
-        .find('.card-badge > .align-text-bottom.badge.badge-danger')
-        .text()
-        .trim(),
-      dateEnds: $(deal).find('small').text().trim(),
-      link:
-        'https://www.dekudeals.com' + $(deal).find('.main-link').attr('href'),
-    };
-    deals.push(dealData);
-  }
-
-  return deals;
-}
-
 export default function HottestDealPage({route, navigation}) {
   const {pageTheme, data} = route.params;
 
@@ -168,8 +133,6 @@ export default function HottestDealPage({route, navigation}) {
       });
     }
 
-    console.log('PAGE - ' + currentPage);
-    console.log(fetchURL);
     setFetchURL(`https://www.dekudeals.com/hottest?page=${currentPage}`);
     setCurrentData(pageData);
   }, [pageTheme, navigation, pageData, currentPage, fetchURL]);
@@ -181,22 +144,12 @@ export default function HottestDealPage({route, navigation}) {
         flexGrow: 1,
       }}>
       <View>
-        <Text
-          style={{
-            color: textColor,
-            marginHorizontal: 16,
-            marginVertical: 8,
-            fontSize: 48,
-            fontWeight: '200',
-          }}>
-          Page {currentPage}
-        </Text>
         <View
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
             marginHorizontal: 16,
-            marginVertical: 4,
+            marginVertical: 16,
           }}>
           <PressableLink
             icon={faArrowLeft}
@@ -300,7 +253,7 @@ export default function HottestDealPage({route, navigation}) {
         <FlatList
           data={currentData}
           style={{
-            marginBottom: 250,
+            marginBottom: 100,
           }}
           renderItem={({item, index}) => (
             <PageCards

@@ -21,6 +21,7 @@ export default function Homepage({navigation, homeTheme}) {
 
   useEffect(() => {
     const getHottestDealsData = async () => {
+      let index = 0;
       const response = await axios.get(
         'https://www.dekudeals.com/hottest?filter[store]=eshop',
       );
@@ -46,14 +47,17 @@ export default function Homepage({navigation, homeTheme}) {
             'https://www.dekudeals.com' +
             $(deal).find('.main-link').attr('href'),
         };
-        deals.push(dealData);
+        if (index < 10) {
+          ++index;
+          deals.push(dealData);
+        }
       }
 
       setHottestDealsData(deals);
       setHottestDealsDataLoaded(true);
     };
-
     const getRecentDealsData = async () => {
+      let index = 0;
       const response = await axios.get(
         'https://www.dekudeals.com/recent-drops',
       );
@@ -74,9 +78,15 @@ export default function Homepage({navigation, homeTheme}) {
             .find('.card-badge > .align-text-bottom.badge.badge-danger')
             .text()
             .trim(),
+          link:
+            'https://www.dekudeals.com' +
+            $(deal).find('.main-link').attr('href'),
           dateEnds: $(deal).find('small').text().trim(),
         };
-        deals.push(dealData);
+        if (index < 10) {
+          ++index;
+          deals.push(dealData);
+        }
       }
 
       setRecentPriceDropsData(deals);
@@ -113,18 +123,20 @@ export default function Homepage({navigation, homeTheme}) {
                   data: hottestDealsData,
                 });
               }}
+              cardPress={navigation.push}
             />
             <DealsSection
               theme={themeMode}
               title="Recent Price Drops"
               data={recentPriceDropsData}
+              cardPress={navigation.push}
+              display={'none'}
             />
           </>
         ) : (
           <LoadingFallbackRender theme={theme} />
         )}
         <FooterSection
-          theme={theme}
           themeValue={themeMode}
           switchOnValueChange={() => {
             if (theme == 'light') {
