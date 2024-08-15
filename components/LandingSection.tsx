@@ -20,21 +20,18 @@ export const LandingSection = (props: any) => {
   return (
     <View
       style={{
-        padding: 48,
+        padding: 16,
         backgroundColor: _bg,
         borderBottomRightRadius: 8,
         borderBottomLeftRadius: 8,
       }}>
       <Text
         style={{
-          fontSize: 48,
+          fontSize: 36,
           fontWeight: 'bold',
           color: _primaryTextStyle,
         }}>
-        Welcome to SwitchDeals
-      </Text>
-      <Text style={{fontSize: 16, color: _secondaryTextStyle}}>
-        Find the best deals here for your Nintendo Switch.
+        SwitchDeals
       </Text>
     </View>
   );

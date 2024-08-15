@@ -176,13 +176,16 @@ export default function HottestDealPage({route, navigation}) {
         backgroundColor: bg,
         flexGrow: 1,
       }}>
-      <View>
-        <View
+      <View
           style={{
+            width: "100%",
+            position: "absolute",
+            bottom: 0,
+            zIndex: 1,
             flexDirection: 'row',
             justifyContent: 'space-between',
-            marginHorizontal: 16,
-            marginVertical: 16,
+            backgroundColor: bg,
+            padding: 16
           }}>
           <PressableLink
             icon={faArrowLeft}
@@ -283,11 +286,9 @@ export default function HottestDealPage({route, navigation}) {
             }}
           />
         </View>
-        <FlatList
+      <FlatList
+      style={{marginBottom: "15%"}}
           data={currentData}
-          style={{
-            marginBottom: 200,
-          }}
           renderItem={({item, index}) => (
             <PageCards
               keyIndex={index}
@@ -318,7 +319,6 @@ export default function HottestDealPage({route, navigation}) {
           numColumns={2}
           columnWrapperStyle={{justifyContent: 'space-evenly'}}
         />
-      </View>
     </SafeAreaView>
   );
 }
