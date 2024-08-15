@@ -83,11 +83,11 @@ const PageCards = props => {
 };
 
 export default function HottestDealPage({route, navigation}) {
-  const {pageTheme, data} = route.params;
+  const {pageTheme} = route.params;
 
   const [currentPage, setCurrentPage] = useState(1);
   const [isFirstPage, setIsFirstPage] = useState(true);
-  const [pageData, setPageData] = useState(data);
+  const [pageData, setPageData] = useState(null);
   const [currentData, setCurrentData] = useState(pageData);
   const [fetchURL, setFetchURL] = useState(
     `https://www.dekudeals.com/hottest?page=${currentPage}`,
@@ -131,6 +131,39 @@ export default function HottestDealPage({route, navigation}) {
         statusBarStyle: 'light',
         headerTintColor: 'white',
       });
+    }
+
+    if (pageData == null) {
+      const fetchData = async () => {
+        setIsFirstPage(false);
+        const response = await axios.get(fetchURL);
+        const data = response.data;
+
+        const $ = cheerio.load(data);
+        const parseDeals = $('.col-xl-2.col-lg-3.col-sm-4.col-6.cell');
+
+        const deals = [];
+
+        for (const deal of parseDeals) {
+          const dealData = {
+            title: $(deal).find('.main-link > .h6.name').text().trim(),
+            imageUri: $(deal).find('.main-link > .responsive-img').attr('src'),
+            oldPrice: $(deal).find('.card-badge > .text-muted').text().trim(),
+            discountedPrice: $(deal).find('.card-badge > strong').text().trim(),
+            percentage: $(deal)
+              .find('.card-badge > .align-text-bottom.badge.badge-danger')
+              .text()
+              .trim(),
+            dateEnds: $(deal).find('small').text().trim(),
+            link:
+              'https://www.dekudeals.com' +
+              $(deal).find('.main-link').attr('href'),
+          };
+          deals.push(dealData);
+        }
+        setPageData(deals);
+      };
+      fetchData();
     }
 
     setFetchURL(`https://www.dekudeals.com/hottest?page=${currentPage}`);
@@ -253,7 +286,7 @@ export default function HottestDealPage({route, navigation}) {
         <FlatList
           data={currentData}
           style={{
-            marginBottom: 100,
+            marginBottom: 200,
           }}
           renderItem={({item, index}) => (
             <PageCards

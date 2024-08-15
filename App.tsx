@@ -16,12 +16,12 @@ import SplashPage from './pages/SplashPage';
 import HottestDealPage from './pages/HottestDealsPage';
 import GameInfo from './pages/GameInfo';
 import {ToastProvider, useToast} from 'react-native-toast-notifications';
-import NetInfo, {useNetInfo} from '@react-native-community/netinfo';
+import {useNetInfo} from '@react-native-community/netinfo';
 import NoNetworkPage from './pages/NoNetworkConnectionPage';
 
 const Stack = createNativeStackNavigator();
 
-const StackNavigator = parentProps => {
+const StackNavigator = () => {
   const navigationRef = createNavigationContainerRef();
   const [theme, setTheme] = useState('light');
   const toast = useToast();

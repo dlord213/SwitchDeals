@@ -120,19 +120,12 @@ function GameSection(props) {
 function ScreenshotsSection(props) {
   return (
     <>
-      <Text
-        style={{
-          color: props.descTextColor,
-          fontWeight: 'bold',
-          fontSize: 28,
-        }}>
-        Screenshots
-      </Text>
       <ScrollView
         horizontal={true}
         style={{
           flex: 1,
           flexWrap: 'wrap',
+          marginVertical: 16,
         }}>
         {props.images.map((imageUri, index) => (
           <Image
